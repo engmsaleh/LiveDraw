@@ -16,7 +16,7 @@
 
 @implementation LDViewController
 
-- (id)init
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
     if (self = [super init])
     {
@@ -39,6 +39,8 @@
 - (void)update
 {
     // Render loop, called once per frame
+    glClearColor(255, 0, 0, 1);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -52,8 +54,8 @@
 
     // Serialize info
     NSDictionary *info = @{
-    @"x" : [NSNumber numberWithFloat:location.x],
-    @"y" : [NSNumber numberWithFloat:location.y]
+    @"x" : @(location.x),
+    @"y" : @(location.y)
     };
 
     // Send it locally and over the network.

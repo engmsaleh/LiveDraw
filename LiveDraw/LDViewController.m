@@ -11,7 +11,7 @@
 #import "PTPusherEvent.h"
 
 @interface LDViewController ()
-@property (nonatomic) EAGLContext *context;
+@property(nonatomic) EAGLContext *context;
 @end
 
 @implementation LDViewController
@@ -47,19 +47,35 @@
     UITouch *touch = [[event touchesForView:self.view] anyObject];
 
     // Invert y axis
-    CGPoint location = [touch locationInView:self];
+    CGPoint location = [touch locationInView:self.view];
     location.y = bounds.size.height - location.y;
 
-    [_client sendEventNamed:@"client-touch" data:@{
-    @"x" : [NSNumber numberWithFloat:location.x], @"y" : [NSNumber numberWithFloat:location.y]
-    }               channel:@"app"];
+    // Serialize info
+    NSDictionary *info = @{
+    @"x" : [NSNumber numberWithFloat:location.x],
+    @"y" : [NSNumber numberWithFloat:location.y]
+    };
+
+    // Send it locally and over the network.
+    [self addPointToCanvasWithInfo:info];
+    [_client sendEventNamed:@"client-touch" data:info channel:@"app"];
+}
+
+// Called when the canvas is touched by any client, or the local user.
+- (void)addPointToCanvasWithInfo:(NSDictionary *)info
+{
+    CGFloat x = [info[@"x"] floatValue];
+    CGFloat y = [info[@"y"] floatValue];
+    NSLog(@"Touched at (%f,%f)...", x, y);
+
+    // TODO: Add it to the frame
 }
 
 #pragma mark Networking
 
 - (void)eventReceived:(PTPusherEvent *)event
 {
-    NSLog(@"Received touch %@...", event.name);
+    [self addPointToCanvasWithInfo:event.data];
 }
 
 #pragma mark Delegates(PTPusher)

@@ -21,6 +21,8 @@
     if (self = [super init])
     {
         _client = [PTPusher pusherWithKey:@"e658d927568df2c3656f" delegate:self encrypted:YES];
+        [_client subscribeToChannelNamed:@"app"]; // imaginative
+        [_client bindToEventNamed:@"client-touch" target:self action:@selector(eventReceived:)];
     }
 
     return self;
@@ -84,8 +86,7 @@
 
 - (void)pusher:(PTPusher *)pusher connectionDidConnect:(PTPusherConnection *)connection
 {
-    [_client subscribeToChannelNamed:@"app"]; // imaginative
-    [_client bindToEventNamed:@"client-touch" target:self action:@selector(eventReceived:)];
+    NSLog(@"Connected to server");
 }
 
 @end

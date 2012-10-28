@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		647F9936163DEECB0074FAD9 /* stamp.png in Resources */ = {isa = PBXBuildFile; fileRef = 647F9935163DEECB0074FAD9 /* stamp.png */; };
 		AE1B4913163DC0DD00AB5AFE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1B4912163DC0DD00AB5AFE /* UIKit.framework */; };
 		AE1B4915163DC0DD00AB5AFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1B4914163DC0DD00AB5AFE /* Foundation.framework */; };
 		AE1B4917163DC0DD00AB5AFE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1B4916163DC0DD00AB5AFE /* CoreGraphics.framework */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		647F9935163DEECB0074FAD9 /* stamp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stamp.png; sourceTree = "<group>"; };
 		98AAF073F67B493A8E895F85 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE1B490E163DC0DD00AB5AFE /* LiveDraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveDraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE1B4912163DC0DD00AB5AFE /* UIKit.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -147,6 +149,7 @@
 		AE1B491D163DC0DD00AB5AFE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				647F9935163DEECB0074FAD9 /* stamp.png */,
 				AE1B491E163DC0DD00AB5AFE /* LiveDraw-Info.plist */,
 				AE1B491F163DC0DD00AB5AFE /* InfoPlist.strings */,
 				AE1B4922163DC0DD00AB5AFE /* main.m */,
@@ -256,6 +259,7 @@
 				AE1B492D163DC0DD00AB5AFE /* Default-568h@2x.png in Resources */,
 				AE1B4930163DC0DD00AB5AFE /* MainStoryboard_iPhone.storyboard in Resources */,
 				AE1B4933163DC0DD00AB5AFE /* MainStoryboard_iPad.storyboard in Resources */,
+				647F9936163DEECB0074FAD9 /* stamp.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,8 +12,9 @@
 
 @class PTPusher;
 
-@interface LDViewController : GLKViewController<PTPusherDelegate> {
-  PTPusher *_client;
+@interface LDViewController : GLKViewController <PTPusherDelegate>
+{
+    PTPusher *_client;
 }
 
 @end

@@ -15,17 +15,19 @@
 
 @implementation LDViewController
 
-- (id)init {
-  if (self = [super init]) {
-    _client = [PTPusher pusherWithKey:@"e658d927568df2c3656f" delegate:self encrypted:YES];
-  }
+- (id)init
+{
+    if (self = [super init])
+    {
+        _client = [PTPusher pusherWithKey:@"e658d927568df2c3656f" delegate:self encrypted:YES];
+    }
 
     return self;
 }
 
 - (void)viewDidLoad
 {
-  [super viewDidLoad];
+    [super viewDidLoad];
 }
 
 - (void)update
@@ -33,28 +35,33 @@
     // Render loop, called once per frame
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-  CGRect bounds = [self.view bounds];
-  UITouch *touch = [[event touchesForView:self.view] anyObject];
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    CGRect bounds = [self.view bounds];
+    UITouch *touch = [[event touchesForView:self.view] anyObject];
 
-  // Invert y axis
-  CGPoint location = [touch locationInView:self];
-  location.y = bounds.size.height - location.y;
+    // Invert y axis
+    CGPoint location = [touch locationInView:self];
+    location.y = bounds.size.height - location.y;
 
-  [_client sendEventNamed:@"client-touch" data:@{@"x" : [NSNumber numberWithFloat:location.x], @"y" : [NSNumber numberWithFloat:location.y] } channel:@"app"];
+    [_client sendEventNamed:@"client-touch" data:@{
+    @"x" : [NSNumber numberWithFloat:location.x], @"y" : [NSNumber numberWithFloat:location.y]
+    }               channel:@"app"];
 }
 
 #pragma mark Networking
 
-- (void)eventReceived:(PTPusherEvent *)event {
-  NSLog(@"Received touch %@...", event.name);
+- (void)eventReceived:(PTPusherEvent *)event
+{
+    NSLog(@"Received touch %@...", event.name);
 }
 
 #pragma mark Delegates(PTPusher)
 
-- (void)pusher:(PTPusher *)pusher connectionDidConnect:(PTPusherConnection *)connection {
-  [_client subscribeToChannelNamed:@"app"]; // imaginative
-  [_client bindToEventNamed:@"client-touch" target:self action:@selector(eventReceived:)];
+- (void)pusher:(PTPusher *)pusher connectionDidConnect:(PTPusherConnection *)connection
+{
+    [_client subscribeToChannelNamed:@"app"]; // imaginative
+    [_client bindToEventNamed:@"client-touch" target:self action:@selector(eventReceived:)];
 }
 
 @end

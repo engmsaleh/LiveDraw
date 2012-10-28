@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 Phillip Cohen. All rights reserved.
 //
 
+#import "LDAppDelegate.h"
+
 @implementation LDAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

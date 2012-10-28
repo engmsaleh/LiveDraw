@@ -24,7 +24,8 @@
     if (self = [super init])
     {
         _client = [PTPusher pusherWithKey:@"e658d927568df2c3656f" delegate:self encrypted:YES];
-        PTPusherChannel *channel = [_client subscribeToChannelNamed:@"app"]; // imaginative
+        _client.authorizationURL = [NSURL URLWithString:@"http://phillipcohen.net/LiveDraw/auth.php"];
+        PTPusherChannel *channel = [_client subscribeToChannelNamed:@"private-app"]; // imaginative
         [_client bindToEventNamed:@"client-touch" target:self action:@selector(eventReceived:)];
     }
 
@@ -66,7 +67,7 @@
     // Send it locally and over the network.
     [self addPointToCanvasWithInfo:info];
     if (_connected)
-        [_client sendEventNamed:@"client-touch" data:info channel:@"app"];
+        [_client sendEventNamed:@"client-touch" data:info channel:@"private-app"];
 }
 
 // Called when the canvas is touched by any client, or the local user.

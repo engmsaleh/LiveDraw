@@ -8,7 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
+#import "PTPusherDelegate.h"
 
-@interface LDViewController : GLKViewController
+@class PTPusher;
+
+@interface LDViewController : GLKViewController<PTPusherDelegate> {
+  PTPusher *_client;
+}
 
 @end

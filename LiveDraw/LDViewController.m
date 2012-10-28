@@ -7,6 +7,8 @@
 //
 
 #import "LDViewController.h"
+#import "PTPusher.h"
+#import "PTPusherEvent.h"
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
@@ -113,6 +115,7 @@ GLfloat gCubeVertexData[216] =
   view.context = self.context;
   view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
 
+  _client = [PTPusher pusherWithKey:@"e658d927568df2c3656f" delegate:self encrypted:YES];
   [self setupGL];
 }
 
@@ -377,6 +380,19 @@ GLfloat gCubeVertexData[216] =
   }
 
   return YES;
+}
+
+#pragma mark Networking
+
+- (void)eventReceived:(PTPusherEvent *)event {
+  NSLog(@"Received touch %@...", event.name);
+
+}
+
+#pragma mark Delegates(PTPusher)
+
+- (void)pusher:(PTPusher *)pusher connectionDidConnect:(PTPusherConnection *)connection {
+  [_client bindToEventNamed:@"touch" target:self action:@selector(eventReceived:)];
 }
 
 @end

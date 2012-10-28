@@ -34,10 +34,9 @@
         // Load the brush texture.
         CGImageRef brushImage;
 
-
         // Create a texture from an image
         // First create a UIImage object from the data in a image file, and then extract the Core Graphics image
-        brushImage = [UIImage imageNamed:@"Particle.png"].CGImage;
+        brushImage = [UIImage imageNamed:@"stamp.png"].CGImage;
 
         // Get the width and height of the image
         size_t width, height;
@@ -90,8 +89,9 @@
 - (void)update
 {
     // Render loop, called once per frame
-    glClearColor(255, 0, 0, 1);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//    glClearColor(255, 0, 0, 1);
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 }
 
 // Drawings a line onscreen based on where the user touches
@@ -103,7 +103,7 @@
 // Drawings a line onscreen based on where the user touches
 - (void)renderLineFromPoint:(CGPoint)start toPoint:(CGPoint)end
 {
-//    NSLog(@"Drawing from (%d, %d) to (%d,%d)", (int) start.x, (int) start.y, (int) end.x, (int) end.y);
+    NSLog(@"Drawing from (%d, %d) to (%d,%d)", (int) start.x, (int) start.y, (int) end.x, (int) end.y);
     static GLfloat *vertexBuffer = NULL;
     static NSUInteger vertexMax = 64;
     NSUInteger vertexCount = 0,
@@ -139,6 +139,35 @@
     // Render the vertex array
     glVertexPointer(2, GL_FLOAT, 0, vertexBuffer);
     glDrawArrays(GL_POINTS, 0, vertexCount);
+
+    // Send to other clients
+    [self sendRenderLineMessageFromPoint:start toPoint:end];
+}
+
+- (NSDictionary *)dictionaryFromPoint:(CGPoint)point
+{
+    return @{
+    @"x" : @(point.x),
+    @"y" : @(point.y)
+    };
+}
+
+- (CGPoint)pointFromDictionary:(NSDictionary *)dict
+{
+    return CGPointMake([dict[@"x"] floatValue], [dict[@"y"] floatValue]);
+}
+
+- (void)sendRenderLineMessageFromPoint:(CGPoint)start toPoint:(CGPoint)end
+{
+    if (_connected)
+    {
+        [_client sendEventNamed:@"client-touch"
+                           data:@{
+                           @"start": [self dictionaryFromPoint:start],
+                           @"end": [self dictionaryFromPoint:start]
+                           }
+                        channel:@"private-app"];
+    }
 }
 
 - (CGPoint)processLocationFromTouchEvent:(UIEvent *)event previous:(BOOL)previous
@@ -157,16 +186,6 @@
 {
     _firstTouch = YES;
     _location = [self processLocationFromTouchEvent:event previous:NO];
-//    NSDictionary *info = @{
-//    @"x" : @(location.x),
-//    @"y" : @(location.y)
-//    };
-//
-//    // Send it locally and over the network.
-//    [self addPointToCanvasWithInfo:info];
-//    if (_connected)
-//        [_client sendEventNamed:@"client-touch" data:info channel:@"private-app"];
-
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -194,21 +213,15 @@
     }
 }
 
-// Called when the canvas is touched by any client, or the local user.
-- (void)addPointToCanvasWithInfo:(NSDictionary *)info
-{
-    CGFloat x = [info[@"x"] floatValue];
-    CGFloat y = [info[@"y"] floatValue];
-    NSLog(@"Touched at (%d,%d)...", (int) x, (int) y);
-
-    // TODO: Add it to the frame
-}
 
 #pragma mark Networking
 
 - (void)eventReceived:(PTPusherEvent *)event
 {
-    [self addPointToCanvasWithInfo:event.data];
+    if (event.data[@"start"] && event.data[@"end"])
+    {
+        [self renderLineFromPoint:[self pointFromDictionary:event.data[@"start"]] toPoint:[self pointFromDictionary:event.data[@"end"]]];
+    }
 }
 
 #pragma mark Delegates(PTPusher)

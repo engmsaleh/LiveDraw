@@ -9,9 +9,12 @@
 #import "LDViewController.h"
 #import "PTPusher.h"
 #import "PTPusherEvent.h"
+#import "PTPusherChannel.h"
 
 @interface LDViewController ()
 @property(nonatomic) EAGLContext *context;
+@property(nonatomic) PTPusher *client;
+@property(nonatomic) BOOL connected;
 @end
 
 @implementation LDViewController
@@ -21,7 +24,7 @@
     if (self = [super init])
     {
         _client = [PTPusher pusherWithKey:@"e658d927568df2c3656f" delegate:self encrypted:YES];
-        [_client subscribeToChannelNamed:@"app"]; // imaginative
+        PTPusherChannel *channel = [_client subscribeToChannelNamed:@"app"]; // imaginative
         [_client bindToEventNamed:@"client-touch" target:self action:@selector(eventReceived:)];
     }
 
@@ -62,7 +65,8 @@
 
     // Send it locally and over the network.
     [self addPointToCanvasWithInfo:info];
-    [_client sendEventNamed:@"client-touch" data:info channel:@"app"];
+    if (_connected)
+        [_client sendEventNamed:@"client-touch" data:info channel:@"app"];
 }
 
 // Called when the canvas is touched by any client, or the local user.
@@ -87,6 +91,7 @@
 - (void)pusher:(PTPusher *)pusher connectionDidConnect:(PTPusherConnection *)connection
 {
     NSLog(@"Connected to server");
+    _connected = YES;
 }
 
 @end

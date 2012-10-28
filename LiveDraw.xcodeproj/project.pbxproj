@@ -20,8 +20,6 @@
 		AE1B492D163DC0DD00AB5AFE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE1B492C163DC0DD00AB5AFE /* Default-568h@2x.png */; };
 		AE1B4930163DC0DD00AB5AFE /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1B492E163DC0DD00AB5AFE /* MainStoryboard_iPhone.storyboard */; };
 		AE1B4933163DC0DD00AB5AFE /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1B4931163DC0DD00AB5AFE /* MainStoryboard_iPad.storyboard */; };
-		AE1B4935163DC0DD00AB5AFE /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = AE1B4934163DC0DD00AB5AFE /* Shader.fsh */; };
-		AE1B4937163DC0DD00AB5AFE /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = AE1B4936163DC0DD00AB5AFE /* Shader.vsh */; };
 		AE1B493A163DC0DD00AB5AFE /* LDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1B4939163DC0DD00AB5AFE /* LDViewController.m */; };
 		AE1B4942163DC0DD00AB5AFE /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1B4941163DC0DD00AB5AFE /* SenTestingKit.framework */; };
 		AE1B4943163DC0DD00AB5AFE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1B4912163DC0DD00AB5AFE /* UIKit.framework */; };
@@ -42,8 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		98AAF073F67B493A8E895F85 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libPods.a; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		AE1B490E163DC0DD00AB5AFE /* LiveDraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = LiveDraw.app; path = LiveDraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		98AAF073F67B493A8E895F85 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE1B490E163DC0DD00AB5AFE /* LiveDraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveDraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE1B4912163DC0DD00AB5AFE /* UIKit.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AE1B4914163DC0DD00AB5AFE /* Foundation.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AE1B4916163DC0DD00AB5AFE /* CoreGraphics.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -60,11 +58,9 @@
 		AE1B492C163DC0DD00AB5AFE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		AE1B492F163DC0DD00AB5AFE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		AE1B4932163DC0DD00AB5AFE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		AE1B4934163DC0DD00AB5AFE /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.fsh; path = Shaders/Shader.fsh; sourceTree = "<group>"; };
-		AE1B4936163DC0DD00AB5AFE /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.vsh; path = Shaders/Shader.vsh; sourceTree = "<group>"; };
 		AE1B4938163DC0DD00AB5AFE /* LDViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDViewController.h; sourceTree = "<group>"; };
 		AE1B4939163DC0DD00AB5AFE /* LDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDViewController.m; sourceTree = "<group>"; };
-		AE1B4940163DC0DD00AB5AFE /* LiveDrawTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = LiveDrawTests.octest; path = LiveDrawTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE1B4940163DC0DD00AB5AFE /* LiveDrawTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LiveDrawTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE1B4941163DC0DD00AB5AFE /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		AE1B4949163DC0DD00AB5AFE /* LiveDrawTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LiveDrawTests-Info.plist"; sourceTree = "<group>"; };
 		AE1B494B163DC0DD00AB5AFE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -141,8 +137,6 @@
 				AE1B4926163DC0DD00AB5AFE /* LDAppDelegate.m */,
 				AE1B492E163DC0DD00AB5AFE /* MainStoryboard_iPhone.storyboard */,
 				AE1B4931163DC0DD00AB5AFE /* MainStoryboard_iPad.storyboard */,
-				AE1B4934163DC0DD00AB5AFE /* Shader.fsh */,
-				AE1B4936163DC0DD00AB5AFE /* Shader.vsh */,
 				AE1B4938163DC0DD00AB5AFE /* LDViewController.h */,
 				AE1B4939163DC0DD00AB5AFE /* LDViewController.m */,
 				AE1B491D163DC0DD00AB5AFE /* Supporting Files */,
@@ -262,8 +256,6 @@
 				AE1B492D163DC0DD00AB5AFE /* Default-568h@2x.png in Resources */,
 				AE1B4930163DC0DD00AB5AFE /* MainStoryboard_iPhone.storyboard in Resources */,
 				AE1B4933163DC0DD00AB5AFE /* MainStoryboard_iPad.storyboard in Resources */,
-				AE1B4935163DC0DD00AB5AFE /* Shader.fsh in Resources */,
-				AE1B4937163DC0DD00AB5AFE /* Shader.vsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -501,6 +493,7 @@
 				AE1B4954163DC0DD00AB5AFE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AE1B4955163DC0DD00AB5AFE /* Build configuration list for PBXNativeTarget "LiveDrawTests" */ = {
 			isa = XCConfigurationList;
@@ -509,6 +502,7 @@
 				AE1B4957163DC0DD00AB5AFE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

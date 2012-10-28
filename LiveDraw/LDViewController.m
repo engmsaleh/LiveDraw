@@ -31,6 +31,17 @@
     // Render loop, called once per frame
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  CGRect bounds = [self.view bounds];
+  UITouch *touch = [[event touchesForView:self.view] anyObject];
+
+  // Invert y axis
+  CGPoint location = [touch locationInView:self];
+  location.y = bounds.size.height - location.y;
+
+  [_client sendEventNamed:@"client-touch" data:@{@"x" : [NSNumber numberWithFloat:location.x], @"y" : [NSNumber numberWithFloat:location.y] } channel:@"app"];
+}
+
 #pragma mark Networking
 
 - (void)eventReceived:(PTPusherEvent *)event {
@@ -40,7 +51,7 @@
 #pragma mark Delegates(PTPusher)
 
 - (void)pusher:(PTPusher *)pusher connectionDidConnect:(PTPusherConnection *)connection {
-  [_client bindToEventNamed:@"touch" target:self action:@selector(eventReceived:)];
+  [_client bindToEventNamed:@"client-touch" target:self action:@selector(eventReceived:)];
 }
 
 @end

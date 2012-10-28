@@ -75,7 +75,7 @@
 {
     CGFloat x = [info[@"x"] floatValue];
     CGFloat y = [info[@"y"] floatValue];
-    NSLog(@"Touched at (%f,%f)...", x, y);
+    NSLog(@"Touched at (%d,%d)...", (int) x, (int) y);
 
     // TODO: Add it to the frame
 }

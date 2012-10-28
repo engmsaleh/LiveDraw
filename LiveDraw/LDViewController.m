@@ -11,6 +11,7 @@
 #import "PTPusherEvent.h"
 
 @interface LDViewController ()
+@property (nonatomic) EAGLContext *context;
 @end
 
 @implementation LDViewController
@@ -28,6 +29,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    _context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2]; // 1
+    GLKView *view = (GLKView *) self.view;
+    view.context = _context; // 3
+    view.delegate = self; // 4
 }
 
 - (void)update

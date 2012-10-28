@@ -15,10 +15,15 @@
 
 @implementation LDViewController
 
+- (id)init {
+  if (self = [super init]) {
+    _client = [PTPusher pusherWithKey:@"e658d927568df2c3656f" delegate:self encrypted:YES];
+  }
+}
+
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  _client = [PTPusher pusherWithKey:@"e658d927568df2c3656f" delegate:self encrypted:YES];
 }
 
 - (void)update

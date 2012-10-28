@@ -6,13 +6,10 @@
 //  Copyright (c) 2012 Phillip Cohen. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 #import "LDAppDelegate.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   @autoreleasepool {
-      return UIApplicationMain(argc, argv, nil, NSStringFromClass([LDAppDelegate class]));
+    return UIApplicationMain(argc, argv, nil, NSStringFromClass([LDAppDelegate class]));
   }
 }

@@ -51,6 +51,7 @@
 #pragma mark Delegates(PTPusher)
 
 - (void)pusher:(PTPusher *)pusher connectionDidConnect:(PTPusherConnection *)connection {
+  [_client subscribeToChannelNamed:@"app"]; // imaginative
   [_client bindToEventNamed:@"client-touch" target:self action:@selector(eventReceived:)];
 }
 

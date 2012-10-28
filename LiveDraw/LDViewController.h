@@ -12,6 +12,8 @@
 
 @class PTPusher;
 
+#define kBrushPixelStep 3
+
 @interface LDViewController : GLKViewController <PTPusherDelegate>
 
 @end

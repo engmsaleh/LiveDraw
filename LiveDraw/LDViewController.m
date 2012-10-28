@@ -9,13 +9,15 @@
 #import "LDViewController.h"
 #import "PTPusher.h"
 #import "PTPusherEvent.h"
-#import "PTPusherChannel.h"
 
 @interface LDViewController ()
 @property(nonatomic) EAGLContext *context;
 @property(nonatomic) PTPusher *client;
 @property(nonatomic) BOOL connected;
 @property(nonatomic) GLuint brushTexture;
+@property(nonatomic) CGPoint location;
+@property(nonatomic) CGPoint previousLocation;
+@property(nonatomic) BOOL firstTouch;
 @end
 
 @implementation LDViewController
@@ -92,25 +94,104 @@
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+// Drawings a line onscreen based on where the user touches
+- (void)renderLine
+{
+    [self renderLineFromPoint:_previousLocation toPoint:_location];
+}
+
+// Drawings a line onscreen based on where the user touches
+- (void)renderLineFromPoint:(CGPoint)start toPoint:(CGPoint)end
+{
+//    NSLog(@"Drawing from (%d, %d) to (%d,%d)", (int) start.x, (int) start.y, (int) end.x, (int) end.y);
+    static GLfloat *vertexBuffer = NULL;
+    static NSUInteger vertexMax = 64;
+    NSUInteger vertexCount = 0,
+            count,
+            i;
+
+    // Convert locations from Points to Pixels
+    CGFloat scale = self.view.contentScaleFactor;
+    start.x *= scale;
+    start.y *= scale;
+    end.x *= scale;
+    end.y *= scale;
+
+    // Allocate vertex array buffer
+    if (vertexBuffer == NULL)
+        vertexBuffer = malloc(vertexMax * 2 * sizeof(GLfloat));
+
+    // Add points to the buffer so there are drawing points every X pixels
+    count = (NSUInteger) MAX(ceilf(sqrtf((end.x - start.x) * (end.x - start.x) + (end.y - start.y) * (end.y - start.y)) / kBrushPixelStep), 1);
+    for (i = 0; i < count; ++i)
+    {
+        if (vertexCount == vertexMax)
+        {
+            vertexMax = 2 * vertexMax;
+            vertexBuffer = realloc(vertexBuffer, vertexMax * 2 * sizeof(GLfloat));
+        }
+
+        vertexBuffer[2 * vertexCount + 0] = start.x + (end.x - start.x) * ((GLfloat) i / (GLfloat) count);
+        vertexBuffer[2 * vertexCount + 1] = start.y + (end.y - start.y) * ((GLfloat) i / (GLfloat) count);
+        vertexCount += 1;
+    }
+
+    // Render the vertex array
+    glVertexPointer(2, GL_FLOAT, 0, vertexBuffer);
+    glDrawArrays(GL_POINTS, 0, vertexCount);
+}
+
+- (CGPoint)processLocationFromTouchEvent:(UIEvent *)event previous:(BOOL)previous
 {
     CGRect bounds = [self.view bounds];
     UITouch *touch = [[event touchesForView:self.view] anyObject];
 
     // Invert y axis
-    CGPoint location = [touch locationInView:self.view];
+    CGPoint location = previous ? [touch previousLocationInView:self.view] : [touch locationInView:self.view];
     location.y = bounds.size.height - location.y;
 
-    // Serialize info
-    NSDictionary *info = @{
-    @"x" : @(location.x),
-    @"y" : @(location.y)
-    };
+    return location;
+}
 
-    // Send it locally and over the network.
-    [self addPointToCanvasWithInfo:info];
-    if (_connected)
-        [_client sendEventNamed:@"client-touch" data:info channel:@"private-app"];
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    _firstTouch = YES;
+    _location = [self processLocationFromTouchEvent:event previous:NO];
+//    NSDictionary *info = @{
+//    @"x" : @(location.x),
+//    @"y" : @(location.y)
+//    };
+//
+//    // Send it locally and over the network.
+//    [self addPointToCanvasWithInfo:info];
+//    if (_connected)
+//        [_client sendEventNamed:@"client-touch" data:info channel:@"private-app"];
+
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    _previousLocation = [self processLocationFromTouchEvent:event previous:YES];
+    if (_firstTouch)
+    {
+        _firstTouch = NO;
+    }
+    else
+    {
+        _location = [self processLocationFromTouchEvent:event previous:NO];
+    }
+
+    [self renderLine];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (_firstTouch)
+    {
+        _firstTouch = NO;
+        _previousLocation = [self processLocationFromTouchEvent:event previous:YES];
+        [self renderLine];
+    }
 }
 
 // Called when the canvas is touched by any client, or the local user.

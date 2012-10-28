@@ -26,7 +26,7 @@
     {
         _client = [PTPusher pusherWithKey:@"e658d927568df2c3656f" delegate:self encrypted:YES];
         _client.authorizationURL = [NSURL URLWithString:@"http://phillipcohen.net/LiveDraw/auth.php"];
-        PTPusherChannel *channel = [_client subscribeToChannelNamed:@"private-app"]; // imaginative
+        [_client subscribeToChannelNamed:@"private-app"]; // imaginative
         [_client bindToEventNamed:@"client-touch" target:self action:@selector(eventReceived:)];
 
         // Load the brush texture.

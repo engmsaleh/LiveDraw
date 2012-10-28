@@ -19,6 +19,8 @@
   if (self = [super init]) {
     _client = [PTPusher pusherWithKey:@"e658d927568df2c3656f" delegate:self encrypted:YES];
   }
+
+    return self;
 }
 
 - (void)viewDidLoad

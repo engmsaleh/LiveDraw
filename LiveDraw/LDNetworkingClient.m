@@ -58,6 +58,9 @@
 
 #pragma mark Private Methods
 
+/**
+* "Sends" a message (really wraps it in our network queue for later transmission).
+*/
 - (void)sendMessage:(PTPusherEvent *)event
 {
     NSMutableDictionary *data = [event.data mutableCopy];

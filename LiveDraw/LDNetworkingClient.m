@@ -49,15 +49,22 @@
 
 - (void)sendDrawMessageFromPoint:(CGPoint)start toPoint:(CGPoint)end
 {
-    [_messageQueue addObject:@{
-    @"event": kDrawEvent,
-    @"id": @(_id),
-    @"start": [self dictionaryFromPoint:start],
-    @"end": [self dictionaryFromPoint:start]
-    }];
+    [self sendMessage:[[PTPusherEvent alloc] initWithEventName:kDrawEvent channel:kNetworkingChannel data:
+            @{
+            @"start": [self dictionaryFromPoint:start],
+            @"end": [self dictionaryFromPoint:start]
+            }]];
 }
 
 #pragma mark Private Methods
+
+- (void)sendMessage:(PTPusherEvent *)event
+{
+    NSMutableDictionary *data = [event.data mutableCopy];
+    data[@"event"] = event.name;
+    data[@"id"] = @(_id);
+    [_messageQueue addObject:data];
+}
 
 /**
 * Sends all events that have queued up.
@@ -90,6 +97,10 @@
         if (event.data[@"start"] && event.data[@"end"])
             [_delegate shouldDrawLineFromPoint:[self pointFromDictionary:event.data[@"start"]] toPoint:[self pointFromDictionary:event.data[@"end"]]];
     }
+    else if ([event.name isEqualToString:kConnectEvent])
+    {
+        NSLog(@"Client {%d} has connected!", [event.data[@"id"] intValue]);
+    }
 }
 
 /**
@@ -121,6 +132,8 @@
 {
     NSLog(@"Connected to server");
     _connected = YES;
+    [self sendMessage:[[PTPusherEvent alloc] initWithEventName:kConnectEvent channel:kNetworkingChannel data:@{
+    }]];
 }
 
 @end

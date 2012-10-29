@@ -13,7 +13,7 @@
 - (void)shouldDrawLineFromPoint:(CGPoint)start toPoint:(CGPoint)end;
 @end
 
-#define kNetworkingChannel @"private-livedraw-1.1"
+#define kNetworkingChannel @"private-livedraw-1.2"
 #define kBatchEvent @"client-batch"
 #define kDrawEvent @"client-draw-line"
 

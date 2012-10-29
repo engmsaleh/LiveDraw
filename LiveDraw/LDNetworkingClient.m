@@ -91,31 +91,23 @@
 #pragma mark Networking
 
 /**
-* Processes events. This was separated from eventReceived to allow batch events to
-*/
-- (void)actOnEventNamed:(NSString *)eventName withData:(id)data
-{
-    if ([eventName isEqualToString:kBatchMessageName])
-    {
-        for (NSDictionary *single in data)
-        {
-            // Treat every event in the batch as its own top-level event.
-            [self actOnEventNamed:single[@"event"] withData:single];
-        }
-    }
-    else if ([eventName isEqualToString:kDrawEventName])
-    {
-        if (data[@"start"] && data[@"end"])
-            [_delegate shouldDrawLineFromPoint:[self pointFromDictionary:data[@"start"]] toPoint:[self pointFromDictionary:data[@"end"]]];
-    }
-}
-
-/**
-* The actual receiver of PTPusher events.
+* Proceses a networking message.
 */
 - (void)eventReceived:(PTPusherEvent *)event
 {
-    [self actOnEventNamed:event.name withData:event.data];
+    if ([event.name isEqualToString:kBatchMessageName])
+    {
+        for (NSDictionary *singleEvent in event.data)
+        {
+            // Convert every event in the batch into its own top-level event. (They must all have the "event" property!)
+            [self eventReceived:[[PTPusherEvent alloc] initWithEventName:singleEvent[@"event"] channel:event.channel data:singleEvent]];
+        }
+    }
+    else if ([event.name isEqualToString:kDrawEventName])
+    {
+        if (event.data[@"start"] && event.data[@"end"])
+            [_delegate shouldDrawLineFromPoint:[self pointFromDictionary:event.data[@"start"]] toPoint:[self pointFromDictionary:event.data[@"end"]]];
+    }
 }
 
 #pragma mark Delegates(PTPusher)

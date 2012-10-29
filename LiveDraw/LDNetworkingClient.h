@@ -14,8 +14,8 @@
 @end
 
 #define kNetworkingChannel @"private-livedraw-1.1"
-#define kBatchMessageName @"client-batch"
-#define kDrawEventName @"client-draw-line"
+#define kBatchEvent @"client-batch"
+#define kDrawEvent @"client-draw-line"
 
 /**
 * Handles network communication with other clients using Pusher.

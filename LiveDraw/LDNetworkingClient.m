@@ -29,6 +29,9 @@
         _client = [PTPusher pusherWithKey:@"e658d927568df2c3656f" delegate:self encrypted:YES];
         _client.authorizationURL = [NSURL URLWithString:@"http://phillipcohen.net/LiveDraw/auth.php"];
         [_client subscribeToChannelNamed:kNetworkingChannel];
+
+        // Bind to all the events we support here.
+        [_client bindToEventNamed:kBatchMessageName target:self action:@selector(eventReceived:)];
         [_client bindToEventNamed:kDrawEventName target:self action:@selector(eventReceived:)];
 
         [NSTimer scheduledTimerWithTimeInterval:0.15
@@ -87,20 +90,29 @@
 
 #pragma mark Networking
 
+/**
+* Processes events. This was separated from eventReceived to allow batch events to
+*/
 - (void)actOnEventNamed:(NSString *)eventName withData:(id)data
 {
     if ([eventName isEqualToString:kBatchMessageName])
     {
         for (NSDictionary *single in data)
         {
-            [self actOnEventNamed:eventName withData:single];
+            // Treat every event in the batch as its own top-level event.
+            [self actOnEventNamed:single[@"event"] withData:single];
         }
-    } else if ([eventName isEqualToString:kDrawEventName] && data[@"start"] && data[@"end"])
+    }
+    else if ([eventName isEqualToString:kDrawEventName])
     {
-        [_delegate shouldDrawLineFromPoint:[self pointFromDictionary:data[@"start"]] toPoint:[self pointFromDictionary:data[@"end"]]];
+        if (data[@"start"] && data[@"end"])
+            [_delegate shouldDrawLineFromPoint:[self pointFromDictionary:data[@"start"]] toPoint:[self pointFromDictionary:data[@"end"]]];
     }
 }
 
+/**
+* The actual receiver of PTPusher events.
+*/
 - (void)eventReceived:(PTPusherEvent *)event
 {
     [self actOnEventNamed:event.name withData:event.data];

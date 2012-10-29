@@ -91,11 +91,11 @@
 // Drawings a line onscreen based on where the user touches
 - (void)renderLine
 {
-    [self renderLineFromPoint:_previousLocation toPoint:_location];
+    [self renderLineFromPoint:_previousLocation toPoint:_location sendToClients:YES];
 }
 
 // Drawings a line onscreen based on where the user touches
-- (void)renderLineFromPoint:(CGPoint)start toPoint:(CGPoint)end
+- (void)renderLineFromPoint:(CGPoint)start toPoint:(CGPoint)end sendToClients:(BOOL)sendToClients
 {
     NSLog(@"Drawing from (%d, %d) to (%d,%d)", (int) start.x, (int) start.y, (int) end.x, (int) end.y);
     static GLfloat *vertexBuffer = NULL;
@@ -134,8 +134,9 @@
     glVertexPointer(2, GL_FLOAT, 0, vertexBuffer);
     glDrawArrays(GL_POINTS, 0, vertexCount);
 
-    // Send to other clients
-    [_client sendDrawMessageFromPoint:start toPoint:end];
+    // If locally originated, send to other clients
+    if (sendToClients)
+        [_client sendDrawMessageFromPoint:start toPoint:end];
 }
 
 
@@ -186,7 +187,7 @@
 
 - (void)shouldDrawLineFromPoint:(CGPoint)start toPoint:(CGPoint)end
 {
-    [self renderLineFromPoint:start toPoint:end];
+    [self renderLineFromPoint:start toPoint:end sendToClients:NO];
 }
 
 @end

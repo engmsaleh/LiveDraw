@@ -24,47 +24,6 @@
     if (self = [super init])
     {
         _client = [[LDNetworkingClient alloc] initWithDelegate:self];
-
-        // Load the brush texture.
-        CGImageRef brushImage;
-
-        // Create a texture from an image
-        // First create a UIImage object from the data in a image file, and then extract the Core Graphics image
-        brushImage = [UIImage imageNamed:@"stamp.png"].CGImage;
-
-        // Get the width and height of the image
-        size_t width, height;
-        width = CGImageGetWidth(brushImage);
-        height = CGImageGetHeight(brushImage);
-
-        // Texture dimensions must be a power of 2. If you write an application that allows users to supply an image,
-        // you'll want to add code that checks the dimensions and takes appropriate action if they are not a power of 2.
-
-        // Make sure the image exists
-        if (brushImage)
-        {
-            GLubyte *brushData;
-            CGContextRef brushContext;
-
-            // Allocate  memory needed for the bitmap context
-            brushData = (GLubyte *) calloc(width * height * 4, sizeof(GLubyte));
-            // Use  the bitmatp creation function provided by the Core Graphics framework.
-            brushContext = CGBitmapContextCreate(brushData, width, height, 8, width * 4, CGImageGetColorSpace(brushImage), kCGImageAlphaPremultipliedLast);
-            // After you create the context, you can draw the  image to the context.
-            CGContextDrawImage(brushContext, CGRectMake(0.0, 0.0, (CGFloat) width, (CGFloat) height), brushImage);
-            // You don't need the context at this point, so you need to release it to avoid memory leaks.
-            CGContextRelease(brushContext);
-            // Use OpenGL ES to generate a name for the texture.
-            glGenTextures(1, &_brushTexture);
-            // Bind the texture name.
-            glBindTexture(GL_TEXTURE_2D, _brushTexture);
-            // Set the texture parameters to use a minifying filter and a linear filer (weighted average)
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            // Specify a 2D texture image, providing the a pointer to the image data in memory
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, brushData);
-            // Release  the image data; it's no longer needed
-            free(brushData);
-        }
     }
 
     return self;
@@ -74,18 +33,34 @@
 {
     [super viewDidLoad];
 
-    _context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2]; // 1
-    GLKView *view = (GLKView *) self.view;
-    view.context = _context; // 3
-    view.delegate = self; // 4
+    _context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+
+    if (!_context)
+    {
+        NSLog(@"Unable to create OpenGL context");
+    }
+
+    GLKView *view = (GLKView *)self.view;
+    view.context = _context;
+    view.contentScaleFactor = [UIScreen mainScreen].scale;
+
+    [EAGLContext setCurrentContext:_context];
+
+    // Create stamp texture
+    NSError * error = nil;
+    NSString * stampPath = [[NSBundle mainBundle] pathForResource:@"stamp.png" ofType:nil];
+    if ([GLKTextureLoader textureWithContentsOfFile:stampPath options:nil error:&error])
+    {
+        NSLog(@"got stamp info");
+    }
+    else
+    {
+        NSLog(@"Did NOT get stamp info. Error: %@", error);
+    }
 }
 
 - (void)update
 {
-    // Render loop, called once per frame
-//    glClearColor(255, 0, 0, 1);
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 }
 
 // Drawings a line onscreen based on where the user touches
@@ -130,9 +105,7 @@
         vertexCount += 1;
     }
 
-    // Render the vertex array
-    glVertexPointer(2, GL_FLOAT, 0, vertexBuffer);
-    glDrawArrays(GL_POINTS, 0, vertexCount);
+    // TODO - Draw vertex array
 
     // If locally originated, send to other clients
     if (sendToClients)

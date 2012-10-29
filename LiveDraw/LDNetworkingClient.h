@@ -14,6 +14,7 @@
 @end
 
 #define kNetworkingChannel @"private-livedraw-1.1"
+#define kDrawEventName @"client-draw-line"
 
 /**
 * Handles network communication with other clients using Pusher.

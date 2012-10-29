@@ -13,6 +13,7 @@
 @interface LDNetworkingClient ()
 @property(nonatomic) PTPusher *client;
 @property(nonatomic) BOOL connected;
+@property(nonatomic) NSMutableArray *messageQueue;
 @end
 
 @implementation LDNetworkingClient
@@ -22,10 +23,11 @@
     if (self = [super init])
     {
         _delegate = delegate;
+        _messageQueue = [NSMutableArray arrayWithCapacity:500];
         _client = [PTPusher pusherWithKey:@"e658d927568df2c3656f" delegate:self encrypted:YES];
         _client.authorizationURL = [NSURL URLWithString:@"http://phillipcohen.net/LiveDraw/auth.php"];
-        [_client subscribeToChannelNamed:kNetworkingChannel]; // imaginative
-        [_client bindToEventNamed:@"client-touch" target:self action:@selector(eventReceived:)];
+        [_client subscribeToChannelNamed:kNetworkingChannel];
+        [_client bindToEventNamed:kDrawEventName target:self action:@selector(eventReceived:)];
     }
 
     return self;
@@ -35,12 +37,11 @@
 {
     if (_connected)
     {
-        [_client sendEventNamed:@"client-draw-line"
-                           data:@{
-                           @"start": [self dictionaryFromPoint:start],
-                           @"end": [self dictionaryFromPoint:start]
-                           }
-                        channel:kNetworkingChannel];
+        [_messageQueue addObject:@{
+        @"event": kDrawEventName,
+        @"start": [self dictionaryFromPoint:start],
+        @"end": [self dictionaryFromPoint:start]
+        }];
     }
 }
 
@@ -62,7 +63,7 @@
 
 - (void)eventReceived:(PTPusherEvent *)event
 {
-    if (event.name == @"client-draw-line" && event.data[@"start"] && event.data[@"end"])
+    if ([event.name isEqualToString:kDrawEventName] && event.data[@"start"] && event.data[@"end"])
     {
         [_delegate shouldDrawLineFromPoint:[self pointFromDictionary:event.data[@"start"]] toPoint:[self pointFromDictionary:event.data[@"end"]]];
     }

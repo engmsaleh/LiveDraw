@@ -14,6 +14,7 @@
 @end
 
 #define kNetworkingChannel @"private-livedraw-1.1"
+#define kBatchMessageName @"client-batch"
 #define kDrawEventName @"client-draw-line"
 
 /**

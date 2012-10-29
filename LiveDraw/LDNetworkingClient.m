@@ -18,6 +18,8 @@
 
 @implementation LDNetworkingClient
 
+#pragma mark Initializers
+
 - (id)initWithDelegate:(id <LDNetworkingClientDelegate>)delegate;
 {
     if (self = [super init])
@@ -28,10 +30,17 @@
         _client.authorizationURL = [NSURL URLWithString:@"http://phillipcohen.net/LiveDraw/auth.php"];
         [_client subscribeToChannelNamed:kNetworkingChannel];
         [_client bindToEventNamed:kDrawEventName target:self action:@selector(eventReceived:)];
+
+        [NSTimer scheduledTimerWithTimeInterval:0.15
+                                         target:self
+                                       selector:@selector(handleTimer:)
+                                       userInfo:nil repeats:YES];
     }
 
     return self;
 }
+
+#pragma mark Public Methods
 
 - (void)sendDrawMessageFromPoint:(CGPoint)start toPoint:(CGPoint)end
 {
@@ -43,6 +52,23 @@
         @"end": [self dictionaryFromPoint:start]
         }];
     }
+}
+
+#pragma mark Private Methods
+
+- (void)sendBatchedEvents
+{
+    if (!_connected || _messageQueue.count == 0)
+        return;
+
+    NSLog(@"Sending %d batched events...", _messageQueue.count);
+    [_client sendEventNamed:kBatchMessageName data:_messageQueue channel:kNetworkingChannel];
+    [_messageQueue removeAllObjects];
+}
+
+- (void)handleTimer:(NSTimer *)timer
+{
+    [self sendBatchedEvents];
 }
 
 - (NSDictionary *)dictionaryFromPoint:(CGPoint)point
@@ -61,12 +87,23 @@
 
 #pragma mark Networking
 
+- (void)actOnEventNamed:(NSString *)eventName withData:(id)data
+{
+    if ([eventName isEqualToString:kBatchMessageName])
+    {
+        for (NSDictionary *single in data)
+        {
+            [self actOnEventNamed:eventName withData:single];
+        }
+    } else if ([eventName isEqualToString:kDrawEventName] && data[@"start"] && data[@"end"])
+    {
+        [_delegate shouldDrawLineFromPoint:[self pointFromDictionary:data[@"start"]] toPoint:[self pointFromDictionary:data[@"end"]]];
+    }
+}
+
 - (void)eventReceived:(PTPusherEvent *)event
 {
-    if ([event.name isEqualToString:kDrawEventName] && event.data[@"start"] && event.data[@"end"])
-    {
-        [_delegate shouldDrawLineFromPoint:[self pointFromDictionary:event.data[@"start"]] toPoint:[self pointFromDictionary:event.data[@"end"]]];
-    }
+    [self actOnEventNamed:event.name withData:event.data];
 }
 
 #pragma mark Delegates(PTPusher)

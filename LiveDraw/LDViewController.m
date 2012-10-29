@@ -7,13 +7,10 @@
 //
 
 #import "LDViewController.h"
-#import "PTPusher.h"
-#import "PTPusherEvent.h"
 
 @interface LDViewController ()
+@property(nonatomic) LDNetworkingClient *client;
 @property(nonatomic) EAGLContext *context;
-@property(nonatomic) PTPusher *client;
-@property(nonatomic) BOOL connected;
 @property(nonatomic) GLuint brushTexture;
 @property(nonatomic) CGPoint location;
 @property(nonatomic) CGPoint previousLocation;
@@ -26,10 +23,7 @@
 {
     if (self = [super init])
     {
-        _client = [PTPusher pusherWithKey:@"e658d927568df2c3656f" delegate:self encrypted:YES];
-        _client.authorizationURL = [NSURL URLWithString:@"http://phillipcohen.net/LiveDraw/auth.php"];
-        [_client subscribeToChannelNamed:@"private-app"]; // imaginative
-        [_client bindToEventNamed:@"client-touch" target:self action:@selector(eventReceived:)];
+        _client = [[LDNetworkingClient alloc] initWithDelegate:self];
 
         // Load the brush texture.
         CGImageRef brushImage;
@@ -141,34 +135,9 @@
     glDrawArrays(GL_POINTS, 0, vertexCount);
 
     // Send to other clients
-    [self sendRenderLineMessageFromPoint:start toPoint:end];
+    [_client sendDrawMessageFromPoint:start toPoint:end];
 }
 
-- (NSDictionary *)dictionaryFromPoint:(CGPoint)point
-{
-    return @{
-    @"x" : @(point.x),
-    @"y" : @(point.y)
-    };
-}
-
-- (CGPoint)pointFromDictionary:(NSDictionary *)dict
-{
-    return CGPointMake([dict[@"x"] floatValue], [dict[@"y"] floatValue]);
-}
-
-- (void)sendRenderLineMessageFromPoint:(CGPoint)start toPoint:(CGPoint)end
-{
-    if (_connected)
-    {
-        [_client sendEventNamed:@"client-touch"
-                           data:@{
-                           @"start": [self dictionaryFromPoint:start],
-                           @"end": [self dictionaryFromPoint:start]
-                           }
-                        channel:@"private-app"];
-    }
-}
 
 - (CGPoint)processLocationFromTouchEvent:(UIEvent *)event previous:(BOOL)previous
 {
@@ -213,23 +182,11 @@
     }
 }
 
+#pragma mark (LDNetworkingClientDelegate)
 
-#pragma mark Networking
-
-- (void)eventReceived:(PTPusherEvent *)event
+- (void)shouldDrawLineFromPoint:(CGPoint)start toPoint:(CGPoint)end
 {
-    if (event.data[@"start"] && event.data[@"end"])
-    {
-        [self renderLineFromPoint:[self pointFromDictionary:event.data[@"start"]] toPoint:[self pointFromDictionary:event.data[@"end"]]];
-    }
-}
-
-#pragma mark Delegates(PTPusher)
-
-- (void)pusher:(PTPusher *)pusher connectionDidConnect:(PTPusherConnection *)connection
-{
-    NSLog(@"Connected to server");
-    _connected = YES;
+    [self renderLineFromPoint:start toPoint:end];
 }
 
 @end

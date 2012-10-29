@@ -27,6 +27,7 @@
 		AE1B4944163DC0DD00AB5AFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1B4914163DC0DD00AB5AFE /* Foundation.framework */; };
 		AE1B494C163DC0DD00AB5AFE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AE1B494A163DC0DD00AB5AFE /* InfoPlist.strings */; };
 		AE1B494F163DC0DD00AB5AFE /* LiveDrawTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1B494E163DC0DD00AB5AFE /* LiveDrawTests.m */; };
+		AEBDA9BA163DFD2800BF73C3 /* LDNetworkingClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBDA9B9163DFD2800BF73C3 /* LDNetworkingClient.m */; };
 		E8EDE3503C774F75B5667530 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 98AAF073F67B493A8E895F85 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,8 @@
 		AE1B494B163DC0DD00AB5AFE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AE1B494D163DC0DD00AB5AFE /* LiveDrawTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiveDrawTests.h; sourceTree = "<group>"; };
 		AE1B494E163DC0DD00AB5AFE /* LiveDrawTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveDrawTests.m; sourceTree = "<group>"; };
+		AEBDA9B8163DFD2800BF73C3 /* LDNetworkingClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDNetworkingClient.h; sourceTree = "<group>"; };
+		AEBDA9B9163DFD2800BF73C3 /* LDNetworkingClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDNetworkingClient.m; sourceTree = "<group>"; };
 		FF84732AF609491DBF23EF77 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -141,6 +144,8 @@
 				AE1B4931163DC0DD00AB5AFE /* MainStoryboard_iPad.storyboard */,
 				AE1B4938163DC0DD00AB5AFE /* LDViewController.h */,
 				AE1B4939163DC0DD00AB5AFE /* LDViewController.m */,
+				AEBDA9B8163DFD2800BF73C3 /* LDNetworkingClient.h */,
+				AEBDA9B9163DFD2800BF73C3 /* LDNetworkingClient.m */,
 				AE1B491D163DC0DD00AB5AFE /* Supporting Files */,
 			);
 			path = LiveDraw;
@@ -311,6 +316,7 @@
 				AE1B4923163DC0DD00AB5AFE /* main.m in Sources */,
 				AE1B4927163DC0DD00AB5AFE /* LDAppDelegate.m in Sources */,
 				AE1B493A163DC0DD00AB5AFE /* LDViewController.m in Sources */,
+				AEBDA9BA163DFD2800BF73C3 /* LDNetworkingClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

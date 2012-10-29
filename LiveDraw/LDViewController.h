@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
 #import "PTPusherDelegate.h"
+#import "LDNetworkingClient.h"
 
 @class PTPusher;
 
 #define kBrushPixelStep 3
 
-@interface LDViewController : GLKViewController <PTPusherDelegate>
+@interface LDViewController : GLKViewController <LDNetworkingClientDelegate>
 
 @end

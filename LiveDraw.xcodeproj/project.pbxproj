@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		647F9936163DEECB0074FAD9 /* stamp.png in Resources */ = {isa = PBXBuildFile; fileRef = 647F9935163DEECB0074FAD9 /* stamp.png */; };
+		64C13D9F1645CBCC005F15EF /* LDCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 64C13D9E1645CBCC005F15EF /* LDCanvas.m */; };
 		AE1B4913163DC0DD00AB5AFE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1B4912163DC0DD00AB5AFE /* UIKit.framework */; };
 		AE1B4915163DC0DD00AB5AFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1B4914163DC0DD00AB5AFE /* Foundation.framework */; };
 		AE1B4917163DC0DD00AB5AFE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1B4916163DC0DD00AB5AFE /* CoreGraphics.framework */; };
@@ -46,6 +47,8 @@
 
 /* Begin PBXFileReference section */
 		647F9935163DEECB0074FAD9 /* stamp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stamp.png; sourceTree = "<group>"; };
+		64C13D9D1645CBCC005F15EF /* LDCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDCanvas.h; sourceTree = "<group>"; };
+		64C13D9E1645CBCC005F15EF /* LDCanvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDCanvas.m; sourceTree = "<group>"; };
 		98AAF073F67B493A8E895F85 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE1B490E163DC0DD00AB5AFE /* LiveDraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveDraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE1B4912163DC0DD00AB5AFE /* UIKit.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -153,6 +156,8 @@
 				AEBDA9B8163DFD2800BF73C3 /* LDNetworkingClient.h */,
 				AEBDA9B9163DFD2800BF73C3 /* LDNetworkingClient.m */,
 				AE1B491D163DC0DD00AB5AFE /* Supporting Files */,
+				64C13D9D1645CBCC005F15EF /* LDCanvas.h */,
+				64C13D9E1645CBCC005F15EF /* LDCanvas.m */,
 			);
 			path = LiveDraw;
 			sourceTree = "<group>";
@@ -197,7 +202,6 @@
 				C4C5EC2CC6EAEC26340ECEED /* index.html */,
 				C4C5ECAC691AD8C42C3B5D66 /* js */,
 			);
-			lastKnownFileType = text;
 			path = WebClient;
 			sourceTree = "<group>";
 		};
@@ -343,6 +347,7 @@
 				AE1B493A163DC0DD00AB5AFE /* LDViewController.m in Sources */,
 				AEBDA9BA163DFD2800BF73C3 /* LDNetworkingClient.m in Sources */,
 				C4C5E7DC485A5E6D0409CB2C /* jcanvas.min.js in Sources */,
+				64C13D9F1645CBCC005F15EF /* LDCanvas.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

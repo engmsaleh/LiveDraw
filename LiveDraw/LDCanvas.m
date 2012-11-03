@@ -14,25 +14,12 @@
 
 @implementation LDCanvas
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    NSLog(@"Initialized LDCanvas in decoder");
-    self = [super initWithCoder:aDecoder];
-    if (self)
-    {
-        self.points = [NSMutableArray array];
-    }
-    return self;
-}
-
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    
-    NSLog(@"Initialized LDCanvas");
-    
     if (self) {
         self.points = [NSMutableArray array];
+        self.clearsContextBeforeDrawing = NO;
     }
     return self;
 }
@@ -53,21 +40,21 @@
 
 - (void)drawRect:(CGRect)rect
 {
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    UIColor *color = [UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1];
+    
+    CGContextSetStrokeColorWithColor(context, [color CGColor]);
+    CGContextSetLineCap(context, kCGLineCapRound);
+    
     for (NSDictionary * pair in self.points)
     {
         CGPoint start = CGPointMake([pair[@"start"][@"x"] doubleValue], [pair[@"start"][@"y"] doubleValue]);
         CGPoint end = CGPointMake([pair[@"end"][@"x"] doubleValue], [pair[@"end"][@"y"] doubleValue]);
         
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        
-        UIColor *color = [UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1];
-        
-        CGContextSetStrokeColorWithColor(context, [color CGColor]);
-        CGContextSetLineCap(context, kCGLineCapRound);
-        CGContextSetLineWidth(context, 15);
-        
+        CGContextSetLineWidth(context, 5);
         CGContextMoveToPoint(context, end.x, end.y);
         CGContextAddLineToPoint(context, start.x, start.y);
+        
         CGContextStrokePath(context);
     }
 }

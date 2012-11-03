@@ -28,6 +28,7 @@
 		AE1B494C163DC0DD00AB5AFE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AE1B494A163DC0DD00AB5AFE /* InfoPlist.strings */; };
 		AE1B494F163DC0DD00AB5AFE /* LiveDrawTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1B494E163DC0DD00AB5AFE /* LiveDrawTests.m */; };
 		AEBDA9BA163DFD2800BF73C3 /* LDNetworkingClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBDA9B9163DFD2800BF73C3 /* LDNetworkingClient.m */; };
+		C4C5E61C447EE4915B7B826D /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = C4C5EC2CC6EAEC26340ECEED /* index.html */; };
 		E8EDE3503C774F75B5667530 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 98AAF073F67B493A8E895F85 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +72,7 @@
 		AE1B494E163DC0DD00AB5AFE /* LiveDrawTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveDrawTests.m; sourceTree = "<group>"; };
 		AEBDA9B8163DFD2800BF73C3 /* LDNetworkingClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDNetworkingClient.h; sourceTree = "<group>"; };
 		AEBDA9B9163DFD2800BF73C3 /* LDNetworkingClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDNetworkingClient.m; sourceTree = "<group>"; };
+		C4C5EC2CC6EAEC26340ECEED /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		FF84732AF609491DBF23EF77 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -109,6 +111,7 @@
 				AE1B4911163DC0DD00AB5AFE /* Frameworks */,
 				AE1B490F163DC0DD00AB5AFE /* Products */,
 				FF84732AF609491DBF23EF77 /* Pods.xcconfig */,
+				C4C5E76B23F5431470058F66 /* WebClient */,
 			);
 			sourceTree = "<group>";
 		};
@@ -183,6 +186,15 @@
 				AE1B494A163DC0DD00AB5AFE /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C4C5E76B23F5431470058F66 /* WebClient */ = {
+			isa = PBXGroup;
+			children = (
+				C4C5EC2CC6EAEC26340ECEED /* index.html */,
+			);
+			lastKnownFileType = text;
+			path = WebClient;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,6 +277,7 @@
 				AE1B4930163DC0DD00AB5AFE /* MainStoryboard_iPhone.storyboard in Resources */,
 				AE1B4933163DC0DD00AB5AFE /* MainStoryboard_iPad.storyboard in Resources */,
 				647F9936163DEECB0074FAD9 /* stamp.png in Resources */,
+				C4C5E61C447EE4915B7B826D /* index.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -130,13 +130,29 @@
     return @{
     @"r": @(components[0]),
     @"g": @(components[1]),
-    @"b": @(components[2])
+    @"b": @(components[2]),
+    @"hex" : [self hexColorFromUIColor:color]
     };
 }
 
 - (UIColor *)colorFromDictionary:(NSDictionary *)dictionary
 {
     return [UIColor colorWithRed:[dictionary[@"r"] floatValue] green:[dictionary[@"g"] floatValue] blue:[dictionary[@"b"] floatValue] alpha:0.8f];
+}
+
+// From http://stackoverflow.com/a/13134326
+- (NSString *)hexColorFromUIColor:(UIColor *)color
+{
+    if (CGColorGetNumberOfComponents(color.CGColor) < 4)
+    {
+        const CGFloat *components = CGColorGetComponents(_color.CGColor);
+        color = [UIColor colorWithRed:components[0] green:components[0] blue:components[0] alpha:components[1]];
+    }
+    if (CGColorSpaceGetModel(CGColorGetColorSpace(color.CGColor)) != kCGColorSpaceModelRGB)
+    {
+        return [NSString stringWithFormat:@"#FFFFFF"];
+    }
+    return [NSString stringWithFormat:@"#%02X%02X%02X", (int) ((CGColorGetComponents(color.CGColor))[0] * 255.0), (int) ((CGColorGetComponents(color.CGColor))[1] * 255.0), (int) ((CGColorGetComponents(color.CGColor))[2] * 255.0)];
 }
 
 - (NSDictionary *)dictionaryFromPoint:(CGPoint)point

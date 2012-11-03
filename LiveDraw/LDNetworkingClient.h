@@ -14,7 +14,7 @@
 @end
 
 #define ARC4RANDOM_MAX      0x100000000
-#define kNetworkingChannel @"private-livedraw-1.3"
+#define kNetworkingChannel @"private-livedraw-1.3a"
 #define kConnectEvent @"client-hello"
 #define kBatchEvent @"client-batch"
 #define kDrawEvent @"client-draw-line"

@@ -20,7 +20,7 @@
             Pusher.channel_auth_transport = 'jsonp';
 
             var pusher = new Pusher('e658d927568df2c3656f');
-            var channel = pusher.subscribe('private-livedraw-1.3');
+            var channel = pusher.subscribe('private-livedraw-1.3a');
             channel.bind('client-batch', function (data) {
                 $.each(data, function (index, event) {
                     if (event.event == "client-draw-line") {
@@ -28,8 +28,8 @@
                         $("canvas").drawLine({
                             x1:event.start.x, y1:event.start.y,
                             x2:event.end.x, y2:event.end.y,
-                            strokeWidth:10,
-                            strokeStyle:"#fff",
+                            strokeWidth:3,
+                            strokeStyle:event.color.hex,
                             rounded:true
                         });
                         console.log("Draw line from (" + event.start.x + "," + event.start.y + ") to (" + event.end.x + "," + event.end.y + ")");

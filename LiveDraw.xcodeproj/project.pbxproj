@@ -29,6 +29,8 @@
 		AE1B494F163DC0DD00AB5AFE /* LiveDrawTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE1B494E163DC0DD00AB5AFE /* LiveDrawTests.m */; };
 		AEBDA9BA163DFD2800BF73C3 /* LDNetworkingClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBDA9B9163DFD2800BF73C3 /* LDNetworkingClient.m */; };
 		C4C5E61C447EE4915B7B826D /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = C4C5EC2CC6EAEC26340ECEED /* index.html */; };
+		C4C5E7DC485A5E6D0409CB2C /* jcanvas.min.js in Sources */ = {isa = PBXBuildFile; fileRef = C4C5E31F1E8D924383672A63 /* jcanvas.min.js */; };
+		C4C5ECDB7000E3FF5A8B9B67 /* jcanvas.min.js in Sources */ = {isa = PBXBuildFile; fileRef = C4C5E31F1E8D924383672A63 /* jcanvas.min.js */; };
 		E8EDE3503C774F75B5667530 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 98AAF073F67B493A8E895F85 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +74,7 @@
 		AE1B494E163DC0DD00AB5AFE /* LiveDrawTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveDrawTests.m; sourceTree = "<group>"; };
 		AEBDA9B8163DFD2800BF73C3 /* LDNetworkingClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDNetworkingClient.h; sourceTree = "<group>"; };
 		AEBDA9B9163DFD2800BF73C3 /* LDNetworkingClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDNetworkingClient.m; sourceTree = "<group>"; };
+		C4C5E31F1E8D924383672A63 /* jcanvas.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jcanvas.min.js; sourceTree = "<group>"; };
 		C4C5EC2CC6EAEC26340ECEED /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		FF84732AF609491DBF23EF77 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -192,9 +195,18 @@
 			isa = PBXGroup;
 			children = (
 				C4C5EC2CC6EAEC26340ECEED /* index.html */,
+				C4C5ECAC691AD8C42C3B5D66 /* js */,
 			);
 			lastKnownFileType = text;
 			path = WebClient;
+			sourceTree = "<group>";
+		};
+		C4C5ECAC691AD8C42C3B5D66 /* js */ = {
+			isa = PBXGroup;
+			children = (
+				C4C5E31F1E8D924383672A63 /* jcanvas.min.js */,
+			);
+			path = js;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -330,6 +342,7 @@
 				AE1B4927163DC0DD00AB5AFE /* LDAppDelegate.m in Sources */,
 				AE1B493A163DC0DD00AB5AFE /* LDViewController.m in Sources */,
 				AEBDA9BA163DFD2800BF73C3 /* LDNetworkingClient.m in Sources */,
+				C4C5E7DC485A5E6D0409CB2C /* jcanvas.min.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,6 +351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE1B494F163DC0DD00AB5AFE /* LiveDrawTests.m in Sources */,
+				C4C5ECDB7000E3FF5A8B9B67 /* jcanvas.min.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

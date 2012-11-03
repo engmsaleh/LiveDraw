@@ -52,7 +52,7 @@
     [self sendMessage:[[PTPusherEvent alloc] initWithEventName:kDrawEvent channel:kNetworkingChannel data:
             @{
             @"start": [self dictionaryFromPoint:start],
-            @"end": [self dictionaryFromPoint:start]
+            @"end": [self dictionaryFromPoint:end]
             }]];
 }
 

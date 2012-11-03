@@ -8,8 +8,8 @@
 
 #import "LDCanvas.h"
 
-@interface LDCanvas()
-@property (nonatomic, strong) NSMutableArray * points;
+@interface LDCanvas ()
+@property(nonatomic, strong) NSMutableArray *points;
 @end
 
 @implementation LDCanvas
@@ -28,24 +28,26 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    
+
     NSLog(@"Initialized LDCanvas");
-    
-    if (self) {
+
+    if (self)
+    {
         self.points = [NSMutableArray array];
     }
     return self;
 }
 
-- (void)drawFrom:(CGPoint)start to:(CGPoint)end
+- (void)drawFrom:(CGPoint)start to:(CGPoint)end withColor:(UIColor *)color;
 {
-    NSDictionary * points = @{
-        @"start": @{
-            @"x": @(start.x), @"y": @(start.y)
-        },
-        @"end": @{
-            @"x": @(end.x), @"y": @(end.y)
-        }
+    NSDictionary *points = @{
+    @"start": @{
+    @"x": @(start.x), @"y": @(start.y)
+    },
+    @"end": @{
+    @"x": @(end.x), @"y": @(end.y)
+    },
+    @"color": color
     };
     [self.points addObject:points];
     [self setNeedsDisplay];
@@ -53,19 +55,19 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    for (NSDictionary * pair in self.points)
+    for (NSDictionary *pair in self.points)
     {
         CGPoint start = CGPointMake([pair[@"start"][@"x"] doubleValue], [pair[@"start"][@"y"] doubleValue]);
         CGPoint end = CGPointMake([pair[@"end"][@"x"] doubleValue], [pair[@"end"][@"y"] doubleValue]);
-        
+
         CGContextRef context = UIGraphicsGetCurrentContext();
-        
-        UIColor *color = [UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1];
-        
+
+        UIColor *color = pair[@"color"];
+
         CGContextSetStrokeColorWithColor(context, [color CGColor]);
         CGContextSetLineCap(context, kCGLineCapRound);
         CGContextSetLineWidth(context, 15);
-        
+
         CGContextMoveToPoint(context, end.x, end.y);
         CGContextAddLineToPoint(context, start.x, start.y);
         CGContextStrokePath(context);

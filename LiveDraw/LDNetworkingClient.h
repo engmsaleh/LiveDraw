@@ -10,10 +10,11 @@
 #import "PTPusherDelegate.h"
 
 @protocol LDNetworkingClientDelegate <NSObject>
-- (void)shouldDrawLineFromPoint:(CGPoint)start toPoint:(CGPoint)end;
+- (void)shouldDrawLineFromPoint:(CGPoint)start toPoint:(CGPoint)end withColor:(UIColor *)color;
 @end
 
-#define kNetworkingChannel @"private-livedraw-1.2"
+#define ARC4RANDOM_MAX      0x100000000
+#define kNetworkingChannel @"private-livedraw-1.3"
 #define kConnectEvent @"client-hello"
 #define kBatchEvent @"client-batch"
 #define kDrawEvent @"client-draw-line"
@@ -28,5 +29,6 @@
 - (void)sendDrawMessageFromPoint:(CGPoint)start toPoint:(CGPoint)end;
 
 @property(weak, nonatomic) id <LDNetworkingClientDelegate> delegate; // weak;
+@property(readonly, nonatomic) UIColor *color;
 
 @end

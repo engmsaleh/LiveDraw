@@ -30,7 +30,9 @@
 		AEBDA9BA163DFD2800BF73C3 /* LDNetworkingClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBDA9B9163DFD2800BF73C3 /* LDNetworkingClient.m */; };
 		C4C5E61C447EE4915B7B826D /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = C4C5EC2CC6EAEC26340ECEED /* index.html */; };
 		C4C5E7DC485A5E6D0409CB2C /* jcanvas.min.js in Sources */ = {isa = PBXBuildFile; fileRef = C4C5E31F1E8D924383672A63 /* jcanvas.min.js */; };
+		C4C5ECD120375922760B0CCB /* LDSubSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C5E4C5366C8FE0993669B7 /* LDSubSegment.m */; };
 		C4C5ECDB7000E3FF5A8B9B67 /* jcanvas.min.js in Sources */ = {isa = PBXBuildFile; fileRef = C4C5E31F1E8D924383672A63 /* jcanvas.min.js */; };
+		C4C5EF4F48F63BC3B7F5C732 /* LDSubSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C5E4C5366C8FE0993669B7 /* LDSubSegment.m */; };
 		E8EDE3503C774F75B5667530 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 98AAF073F67B493A8E895F85 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +77,8 @@
 		AEBDA9B8163DFD2800BF73C3 /* LDNetworkingClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDNetworkingClient.h; sourceTree = "<group>"; };
 		AEBDA9B9163DFD2800BF73C3 /* LDNetworkingClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDNetworkingClient.m; sourceTree = "<group>"; };
 		C4C5E31F1E8D924383672A63 /* jcanvas.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jcanvas.min.js; sourceTree = "<group>"; };
+		C4C5E379C8365C49D5B43352 /* LDSubSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSubSegment.h; sourceTree = "<group>"; };
+		C4C5E4C5366C8FE0993669B7 /* LDSubSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSubSegment.m; sourceTree = "<group>"; };
 		C4C5EC2CC6EAEC26340ECEED /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		FF84732AF609491DBF23EF77 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -153,6 +157,8 @@
 				AEBDA9B8163DFD2800BF73C3 /* LDNetworkingClient.h */,
 				AEBDA9B9163DFD2800BF73C3 /* LDNetworkingClient.m */,
 				AE1B491D163DC0DD00AB5AFE /* Supporting Files */,
+				C4C5E4C5366C8FE0993669B7 /* LDSubSegment.m */,
+				C4C5E379C8365C49D5B43352 /* LDSubSegment.h */,
 			);
 			path = LiveDraw;
 			sourceTree = "<group>";
@@ -343,6 +349,7 @@
 				AE1B493A163DC0DD00AB5AFE /* LDViewController.m in Sources */,
 				AEBDA9BA163DFD2800BF73C3 /* LDNetworkingClient.m in Sources */,
 				C4C5E7DC485A5E6D0409CB2C /* jcanvas.min.js in Sources */,
+				C4C5EF4F48F63BC3B7F5C732 /* LDSubSegment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +359,7 @@
 			files = (
 				AE1B494F163DC0DD00AB5AFE /* LiveDrawTests.m in Sources */,
 				C4C5ECDB7000E3FF5A8B9B67 /* jcanvas.min.js in Sources */,
+				C4C5ECD120375922760B0CCB /* LDSubSegment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,7 @@
 //
 
 #import "LDViewController.h"
+#import "LDSubSegment.h"
 
 @interface LDViewController ()
 @property(nonatomic) LDNetworkingClient *client;
@@ -15,6 +16,8 @@
 @property(nonatomic) CGPoint location;
 @property(nonatomic) CGPoint previousLocation;
 @property(nonatomic) BOOL firstTouch;
+@property(nonatomic) GLKBaseEffect *effect;
+@property(nonatomic) NSMutableArray *segmentQueue;
 @end
 
 @implementation LDViewController
@@ -24,48 +27,116 @@
     if (self = [super init])
     {
         _client = [[LDNetworkingClient alloc] initWithDelegate:self];
+        _segmentQueue = [[NSMutableArray alloc] init];
     }
 
     return self;
+}
+
+- (void)setupGL
+{
+    [EAGLContext setCurrentContext:self.context];
+
+    self.effect = [[GLKBaseEffect alloc] init];
+
+    // Let's color the line
+    self.effect.useConstantColor = GL_TRUE;
+
+    // Make the line a cyan color
+    self.effect.constantColor = GLKVector4Make(
+            1.0f, // Red
+            1.0f, // Green
+            1.0f, // Blue
+            1.0f);// Alpha
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    _context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
-    if (!_context)
+    if (!self.context)
     {
-        NSLog(@"Unable to create OpenGL context");
+        NSLog(@"Failed to create ES context");
     }
 
     GLKView *view = (GLKView *) self.view;
-    view.context = _context;
-    view.contentScaleFactor = [UIScreen mainScreen].scale;
+    view.context = self.context;
+    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+    [EAGLContext setCurrentContext:self.context];
 
-    [EAGLContext setCurrentContext:_context];
-
-    // Create stamp texture
-    NSError *error = nil;
-    NSString *stampPath = [[NSBundle mainBundle] pathForResource:@"stamp.png" ofType:nil];
-    if ([GLKTextureLoader textureWithContentsOfFile:stampPath options:nil error:&error])
-    {
-        NSLog(@"got stamp info");
-    }
-    else
-    {
-        NSLog(@"Did NOT get stamp info. Error: %@", error);
-    }
+    [self setupGL];
 }
 
-- (void)update
+- (GLfloat)normalizeCoordinate:(CGFloat)coordinate fromMax:(CGFloat)max
 {
+    return (coordinate - max / 2.0f) / max;
+}
+
+- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
+{
+//    glClearColor(0.65f, 0.65f, 0.65f, 0.2f);
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // Prepare the effect for rendering
+    [self.effect prepareToDraw];
+
+    for (LDSubSegment *segment in _segmentQueue)
+    {
+        GLfloat x1 = [self normalizeCoordinate:segment.start.x fromMax:self.view.bounds.size.width];
+        GLfloat y1 = [self normalizeCoordinate:segment.start.y fromMax:self.view.bounds.size.height];
+        GLfloat x2 = [self normalizeCoordinate:segment.end.x fromMax:self.view.bounds.size.width];
+        GLfloat y2 = [self normalizeCoordinate:segment.end.y fromMax:self.view.bounds.size.height];
+
+        const GLfloat line[] =
+                {
+                        x1, y1, //point A
+                        x2, y2, //point B
+                };
+
+        // Create an handle for a buffer object array
+        GLuint bufferObjectNameArray;
+
+        // Have OpenGL generate a buffer name and store it in the buffer object array
+        glGenBuffers(1, &bufferObjectNameArray);
+
+        // Bind the buffer object array to the GL_ARRAY_BUFFER target buffer
+        glBindBuffer(GL_ARRAY_BUFFER, bufferObjectNameArray);
+
+        // Send the line data over to the target buffer in GPU RAM
+        glBufferData(
+                GL_ARRAY_BUFFER,   // the target buffer
+                sizeof(line),      // the number of bytes to put into the buffer
+                line,              // a pointer to the data being copied
+                GL_STATIC_DRAW);   // the usage pattern of the data
+
+        // Enable vertex data to be fed down the graphics pipeline to be drawn
+        glEnableVertexAttribArray(GLKVertexAttribPosition);
+
+        // Specify how the GPU looks up the data
+        glVertexAttribPointer(
+                GLKVertexAttribPosition, // the currently bound buffer holds the data
+                2,                       // number of coordinates per vertex
+                GL_FLOAT,                // the data type of each component
+                GL_FALSE,                // can the data be scaled
+                2 * 4,                     // how many bytes per vertex (2 floats per vertex)
+                NULL);                   // offset to the first coordinate, in this case 0
+
+        glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+        glDrawArrays(GL_LINES, 0, 2); // render
+    }
+
+    [_segmentQueue removeAllObjects];
 }
 
 // Drawings a line onscreen based on where the user touches
 - (void)renderLine
 {
+    LDSubSegment *segment = [[LDSubSegment alloc] init];
+    segment.start = _previousLocation;
+    segment.end = _location;
+    [_segmentQueue addObject:segment];
     [self renderLineFromPoint:_previousLocation toPoint:_location sendToClients:YES];
 }
 

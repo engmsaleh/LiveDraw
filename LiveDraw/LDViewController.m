@@ -40,15 +40,15 @@
         NSLog(@"Unable to create OpenGL context");
     }
 
-    GLKView *view = (GLKView *)self.view;
+    GLKView *view = (GLKView *) self.view;
     view.context = _context;
     view.contentScaleFactor = [UIScreen mainScreen].scale;
 
     [EAGLContext setCurrentContext:_context];
 
     // Create stamp texture
-    NSError * error = nil;
-    NSString * stampPath = [[NSBundle mainBundle] pathForResource:@"stamp.png" ofType:nil];
+    NSError *error = nil;
+    NSString *stampPath = [[NSBundle mainBundle] pathForResource:@"stamp.png" ofType:nil];
     if ([GLKTextureLoader textureWithContentsOfFile:stampPath options:nil error:&error])
     {
         NSLog(@"got stamp info");
@@ -109,9 +109,13 @@
 
     // If locally originated, send to other clients
     if (sendToClients)
-        [_client sendDrawMessageFromPoint:start toPoint:end];
+        [_client sendDrawMessageFromPoint:[self invertYAxisOfPoint:start] toPoint:[self invertYAxisOfPoint:end]];
 }
 
+- (CGPoint)invertYAxisOfPoint:(CGPoint)point
+{
+    return CGPointMake(point.x, [self.view bounds].size.height - point.y);
+}
 
 - (CGPoint)processLocationFromTouchEvent:(UIEvent *)event previous:(BOOL)previous
 {
@@ -120,9 +124,7 @@
 
     // Invert y axis
     CGPoint location = previous ? [touch previousLocationInView:self.view] : [touch locationInView:self.view];
-    location.y = bounds.size.height - location.y;
-
-    return location;
+    return [self invertYAxisOfPoint:location];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

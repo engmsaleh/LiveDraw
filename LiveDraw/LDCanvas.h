@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface LDCanvas : UIView
-- (void)drawFrom:(CGPoint)start to:(CGPoint)end;
+- (void)drawFrom:(CGPoint)start to:(CGPoint)end withColor:(UIColor *)color;
 @end

@@ -23,7 +23,7 @@
     if (self = [super init])
     {
         _client = [[LDNetworkingClient alloc] initWithDelegate:self];
-        
+
         self.view = [[LDCanvas alloc] initWithFrame:self.view.frame];
         self.view.backgroundColor = [UIColor colorWithRed:0.2 green:0 blue:0 alpha:1];
     }
@@ -39,16 +39,16 @@
 // Drawings a line onscreen based on where the user touches
 - (void)renderLine
 {
-    [self renderLineFromPoint:_previousLocation toPoint:_location sendToClients:YES];
+    [self renderLineFromPoint:_previousLocation toPoint:_location withColor:_client.color sendToClients:YES];
 }
 
 // Drawings a line onscreen based on where the user touches
-- (void)renderLineFromPoint:(CGPoint)start toPoint:(CGPoint)end sendToClients:(BOOL)sendToClients
+- (void)renderLineFromPoint:(CGPoint)start toPoint:(CGPoint)end withColor:(UIColor *)color sendToClients:(BOOL)sendToClients
 {
     NSLog(@"Drawing from (%d, %d) to (%d,%d)", (int) start.x, (int) start.y, (int) end.x, (int) end.y);
-    
-    LDCanvas * view = (LDCanvas*)self.view;
-    [view drawFrom:start to:end];
+
+    LDCanvas *view = (LDCanvas *) self.view;
+    [view drawFrom:start to:end withColor:color];
 
     // If locally originated, send to other clients
     if (sendToClients)
@@ -97,9 +97,9 @@
 
 #pragma mark (LDNetworkingClientDelegate)
 
-- (void)shouldDrawLineFromPoint:(CGPoint)start toPoint:(CGPoint)end
+- (void)shouldDrawLineFromPoint:(CGPoint)start toPoint:(CGPoint)end withColor:(UIColor *)color
 {
-    [self renderLineFromPoint:start toPoint:end sendToClients:NO];
+    [self renderLineFromPoint:start toPoint:end withColor:(UIColor *) color sendToClients:NO];
 }
 
 @end

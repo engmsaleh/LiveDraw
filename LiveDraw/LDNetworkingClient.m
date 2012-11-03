@@ -15,6 +15,7 @@
 @property(nonatomic) NSUInteger id;
 @property(nonatomic) BOOL connected;
 @property(nonatomic) NSMutableArray *messageQueue;
+@property(nonatomic) UIColor *color;
 @end
 
 @implementation LDNetworkingClient
@@ -26,6 +27,7 @@
     if (self = [super init])
     {
         _id = arc4random();
+        _color = [UIColor colorWithRed:[self randomFloat] green:[self randomFloat] blue:[self randomFloat] alpha:0.8];
         _delegate = delegate;
         _messageQueue = [NSMutableArray arrayWithCapacity:500];
         _client = [PTPusher pusherWithKey:@"e658d927568df2c3656f" delegate:self encrypted:YES];
@@ -66,6 +68,7 @@
     NSMutableDictionary *data = [event.data mutableCopy];
     data[@"event"] = event.name;
     data[@"id"] = @(_id);
+    data[@"color"] = [self dictionaryFromColor:_color];
     [_messageQueue addObject:data];
 }
 
@@ -98,7 +101,7 @@
     else if ([event.name isEqualToString:kDrawEvent])
     {
         if (event.data[@"start"] && event.data[@"end"])
-            [_delegate shouldDrawLineFromPoint:[self pointFromDictionary:event.data[@"start"]] toPoint:[self pointFromDictionary:event.data[@"end"]]];
+            [_delegate shouldDrawLineFromPoint:[self pointFromDictionary:event.data[@"start"]] toPoint:[self pointFromDictionary:event.data[@"end"]] withColor:[self colorFromDictionary:event.data[@"color"]]];
     }
     else if ([event.name isEqualToString:kConnectEvent])
     {
@@ -114,7 +117,27 @@
     [self sendBatchedEvents];
 }
 
-#pragma mark Converters
+#pragma mark Converters / Utilities
+
+- (CGFloat)randomFloat
+{
+    return (CGFloat) arc4random() / ARC4RANDOM_MAX;
+}
+
+- (NSDictionary *)dictionaryFromColor:(UIColor *)color
+{
+    const CGFloat *components = CGColorGetComponents([color CGColor]);
+    return @{
+    @"r": @(components[0]),
+    @"g": @(components[1]),
+    @"b": @(components[2])
+    };
+}
+
+- (UIColor *)colorFromDictionary:(NSDictionary *)dictionary
+{
+    return [UIColor colorWithRed:[dictionary[@"r"] floatValue] green:[dictionary[@"g"] floatValue] blue:[dictionary[@"b"] floatValue] alpha:0.8f];
+}
 
 - (NSDictionary *)dictionaryFromPoint:(CGPoint)point
 {
